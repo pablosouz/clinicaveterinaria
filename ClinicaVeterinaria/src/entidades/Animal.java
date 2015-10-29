@@ -1,6 +1,6 @@
 package entidades;
 
-public class Animal extends Dono {
+public class Animal  {
 
 	private int id;
 	private String nome;
@@ -14,12 +14,12 @@ public class Animal extends Dono {
 	private Dono dono;
 	private Consulta consulta;
 
-        public int getCodigoAnimal() {
+        public int id() {
                 return id;
         }
 
-        public void setCodigoAnimal(int codigoAnimal) {
-                this.id = codigoAnimal;
+        public void setId(int id) {
+                this.id = id;
         }
 
         public String getNome() {
