@@ -1,5 +1,6 @@
 package entidades;
 
+import Utilidades.Util;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
@@ -25,7 +26,7 @@ public class Animal implements Serializable  {
 	private String situacaoOrelha;
 	private String situacaoGengiva;
         @ManyToOne
-	private Dono dono;
+        private Dono dono;
 	private Consulta consulta;
         private String observacao;
 
@@ -132,10 +133,7 @@ public class Animal implements Serializable  {
         
         public void cadastrarAnimal(String nome,String raca, String peso, String batimentoCardiaco, String situacaoPelagem,	 String temperatura, String situacaoOrelha, String situacaoGengiva,String observacao) {
 
-        try{        
-                EntityManagerFactory factory = Persistence.createEntityManagerFactory("sistema");
-                EntityManager em = factory.createEntityManager();
-
+        try{   
                 Animal animal = new Animal();
                 
                 animal.setNome(nome);
@@ -148,19 +146,12 @@ public class Animal implements Serializable  {
                 animal.setSituacaoGengiva(situacaoGengiva);
                 animal.setObservacao(observacao);
                 
-                em.getTransaction().begin();
-                em.persist(animal);
-                em.getTransaction().commit();
-
-                em.close();
-                factory.close();
+                Util.persistir(animal);
                 
                 JOptionPane.showMessageDialog(null, "Animal cadastrado com sucesso!");        
         } catch(Exception ex){
                 JOptionPane.showMessageDialog(null,"Erro ao cadastrar Animal \n ERROR:"+ex.getMessage());
-        }
-                
-                
+        }       
 	}
 
 	public void consultarAnimal() {
@@ -174,6 +165,5 @@ public class Animal implements Serializable  {
 	public void excluirAnimal() {
 
 	}
-
-
+        
 }

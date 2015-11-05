@@ -6,9 +6,6 @@
 package interfaces;
 
 import entidades.Dono;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
 
 /**
@@ -154,6 +151,9 @@ public class FrmCadastrarDono extends javax.swing.JFrame {
                 // TODO add your handling code here:
         try{
                 Dono dono = new Dono();
+                
+                if(!"".equals(txtNomeResponsavel.getText()) && !"".equals(txtCpf.getText()) && !"".equals(txtTelefone.getText()) && !"".equals(txtEndereco.getText())){
+                        
                 dono.cadastrarDono(txtNomeResponsavel.getText(),txtCpf.getText(), txtTelefone.getText(), txtEndereco.getText());
 
                 txtCpf.setText("");
@@ -164,7 +164,10 @@ public class FrmCadastrarDono extends javax.swing.JFrame {
                 FrmCadastrarAnimal cadastroAnimal = new FrmCadastrarAnimal();
                 cadastroAnimal.setVisible(true);
                 this.dispose();
-
+                }else {
+                        JOptionPane.showMessageDialog(rootPane,"Preencha todos os campos da tabela");
+                }
+                
         }catch(Exception ex){
                 JOptionPane.showMessageDialog(rootPane,"Erro ao Cadastrar! \n ERROR: " + ex.getMessage());
         }

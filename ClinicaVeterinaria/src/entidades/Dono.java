@@ -1,39 +1,27 @@
 package entidades;
 
+import Utilidades.Util;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.Persistence;
 import javax.swing.JOptionPane;
 
 @Entity
 public class Dono implements Serializable {
 
-        @Id @GeneratedValue
-        private int id;
-	private String nome;
-	private String cpf;
+        @Id 
+        private String cpf;
+	private String nome;	
 	private String telefone;
 	private String endereco;
-        @OneToMany
-	private List<Animal> animal = new ArrayList<Animal>();
+        @OneToMany(mappedBy = "dono")
+        private List<Animal> animals;
+       	
 
         public Dono() {
                 
-        }
-        
-        public int getId() {
-                return id;
-        }
-
-        public void setId(int id) {
-                this.id = id;
         }
 
         public String getNome() {
@@ -68,31 +56,26 @@ public class Dono implements Serializable {
                 this.endereco = endereco;
         }
 
-        public List<Animal> getAnimal() {
-                return animal;
+        public List<Animal> getAnimals() {
+                return animals;
         }
 
-        public void setAnimal(List<Animal> animal) {
-                this.animal = animal;
+        public void setAnimals(List<Animal> animals) {
+                this.animals = animals;
         }
+
+        
         
         public void cadastrarDono(String nome, String cpf, String telefone, String endereco) {
-      try{                        
-                EntityManagerFactory factory = Persistence.createEntityManagerFactory("sistema");
-                EntityManager em = factory.createEntityManager();
-
-                Dono dono = new Dono(); 
+      try{
+                Dono dono = new Dono();
+                
                 dono.setNome(nome);
                 dono.setCpf(cpf);
                 dono.setTelefone(telefone);
                 dono.setEndereco(endereco);
-                        
-                em.getTransaction().begin();
-                em.persist(dono);
-                em.getTransaction().commit();
-
-                em.close();
-                factory.close();
+                
+                Util.persistir(dono);
 
                 JOptionPane.showMessageDialog(null, "Dono cadastrado com sucesso!");
                         
@@ -105,6 +88,13 @@ public class Dono implements Serializable {
                 this.telefone = telefone;
                 this.endereco = endereco;
         }
+        
+        public void cadastrarAnimalDono (Animal animal){
+                animals.add(animal);
+                animal.setDono(this);
+        }
+        
+        
 }
 
 
