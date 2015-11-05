@@ -1,16 +1,33 @@
 package entidades;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
 
-public class Dono {
+@Entity
+public class Dono implements Serializable {
 
+        @Id @GeneratedValue
         private int id;
 	private String nome;
 	private String cpf;
 	private String telefone;
 	private String endereco;
-	private List<Animal> animal;
+        @OneToMany
+	private List<Animal> animal = new ArrayList<Animal>();
 
+        public Dono() {
+                
+        }
+        
         public int getId() {
                 return id;
         }
@@ -59,6 +76,35 @@ public class Dono {
                 this.animal = animal;
         }
         
-        
+        public void cadastrarDono(String nome, String cpf, String telefone, String endereco) {
+      try{                        
+                EntityManagerFactory factory = Persistence.createEntityManagerFactory("sistema");
+                EntityManager em = factory.createEntityManager();
 
+                Dono dono = new Dono(); 
+                dono.setNome(nome);
+                dono.setCpf(cpf);
+                dono.setTelefone(telefone);
+                dono.setEndereco(endereco);
+                        
+                em.getTransaction().begin();
+                em.persist(dono);
+                em.getTransaction().commit();
+
+                em.close();
+                factory.close();
+
+                JOptionPane.showMessageDialog(null, "Dono cadastrado com sucesso!");
+                        
+        }catch(Exception ex){
+                JOptionPane.showMessageDialog(null,"Erro ao Cadastrar! \n ERROR: " + ex.getMessage());
+         }
+      
+                this.nome = nome;
+                this.cpf = cpf;
+                this.telefone = telefone;
+                this.endereco = endereco;
+        }
 }
+
+

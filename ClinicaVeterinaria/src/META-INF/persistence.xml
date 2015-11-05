@@ -2,16 +2,15 @@
 <persistence version="1.0" xmlns="http://java.sun.com/xml/ns/persistence">
   <persistence-unit name="sistema">
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    <class>entidades.Disciplina</class>
-    <class>entidades.Aluno</class>
-    <class>entidades.Turma</class>
+    <class>entidades.Animal</class>
+    <class>entidades.Dono</class>
     <properties>
       <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
       <property name="hibernate.hbm2ddl.auto" value="update"/>
       <property name="hibernate.show_sql" value="true"/>
       <property name="hibernate.format_sql" value="true"/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/SCA2"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/test_clinica"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
       <property name="javax.persistence.jdbc.password" value="root"/>
     </properties>

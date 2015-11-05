@@ -1,19 +1,38 @@
 package entidades;
 
-public class Animal  {
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Persistence;
+import javax.swing.JOptionPane;
 
+@Entity
+public class Animal implements Serializable  {
+
+        @Id @GeneratedValue
 	private int id;
 	private String nome;
 	private String raca;
-	private double peso;
-	private double batimentoCardiaco;
+	private String peso;
+	private String batimentoCardiaco;
 	private String situacaoPelagem;
-	private double temperatura;
+	private String temperatura;
 	private String situacaoOrelha;
 	private String situacaoGengiva;
+        @ManyToOne
 	private Dono dono;
 	private Consulta consulta;
+        private String observacao;
 
+        public Animal() {
+                
+        }
+        
         public int id() {
                 return id;
         }
@@ -38,19 +57,19 @@ public class Animal  {
                 this.raca = raca;
         }
 
-        public double getPeso() {
+        public String getPeso() {
                 return peso;
         }
 
-        public void setPeso(double peso) {
+        public void setPeso(String peso) {
                 this.peso = peso;
         }
 
-        public double getBatimentoCardiaco() {
+        public String getBatimentoCardiaco() {
                 return batimentoCardiaco;
         }
 
-        public void setBatimentoCardiaco(double batimentoCardiaco) {
+        public void setBatimentoCardiaco(String batimentoCardiaco) {
                 this.batimentoCardiaco = batimentoCardiaco;
         }
 
@@ -62,11 +81,11 @@ public class Animal  {
                 this.situacaoPelagem = situacaoPelagem;
         }
 
-        public double getTemperatura() {
+        public String getTemperatura() {
                 return temperatura;
         }
 
-        public void setTemperatura(double temperatura) {
+        public void setTemperatura(String temperatura) {
                 this.temperatura = temperatura;
         }
 
@@ -91,7 +110,7 @@ public class Animal  {
         }
 
         public void setDono(Dono dono) {
-                this.dono = dono;
+                this.dono= dono;
         }
 
         public Consulta getConsulta() {
@@ -100,11 +119,48 @@ public class Animal  {
 
         public void setConsulta(Consulta consulta) {
                 this.consulta = consulta;
+        } 
+
+        public String getObservacao() {
+                return observacao;
+        }
+
+        public void setObservacao(String observacao) {
+                this.observacao = observacao;
         }
         
+        
+        public void cadastrarAnimal(String nome,String raca, String peso, String batimentoCardiaco, String situacaoPelagem,	 String temperatura, String situacaoOrelha, String situacaoGengiva,String observacao) {
 
-	public void cadastrarAnimal() {
+        try{        
+                EntityManagerFactory factory = Persistence.createEntityManagerFactory("sistema");
+                EntityManager em = factory.createEntityManager();
 
+                Animal animal = new Animal();
+                
+                animal.setNome(nome);
+                animal.setRaca(raca);
+                animal.setPeso(peso);
+                animal.setBatimentoCardiaco(batimentoCardiaco);
+                animal.setSituacaoPelagem(situacaoPelagem);
+                animal.setTemperatura(temperatura);
+                animal.setSituacaoOrelha(situacaoOrelha);
+                animal.setSituacaoGengiva(situacaoGengiva);
+                animal.setObservacao(observacao);
+                
+                em.getTransaction().begin();
+                em.persist(animal);
+                em.getTransaction().commit();
+
+                em.close();
+                factory.close();
+                
+                JOptionPane.showMessageDialog(null, "Animal cadastrado com sucesso!");        
+        } catch(Exception ex){
+                JOptionPane.showMessageDialog(null,"Erro ao cadastrar Animal \n ERROR:"+ex.getMessage());
+        }
+                
+                
 	}
 
 	public void consultarAnimal() {
@@ -118,5 +174,6 @@ public class Animal  {
 	public void excluirAnimal() {
 
 	}
+
 
 }
